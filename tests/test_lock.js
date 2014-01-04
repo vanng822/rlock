@@ -29,7 +29,7 @@ vows.describe('Test suite for lock').addBatch({
 	'acquire buzy lock test2' : {
 		'topic' : function() {
 			var self = this;
-			testUtil.setRedisKey('rlock::test2', function(err, result) {
+			testUtil.setRedisKey('rlock::test2', Date.now() + 1000000, function(err, result) {
 				assert.ok(result);
 				self.lock = new rlock.Lock('rlock::test2', {
 					retryDelay : 2,
