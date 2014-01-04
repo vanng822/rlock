@@ -31,16 +31,22 @@ vows.describe('Test suite for lock').addBatch({
 			var self = this;
 			testUtil.setRedisKey('rlock::test2', function(err, result) {
 				assert.ok(result);
-				var lock = new rlock.Lock('rlock::test2', {
+				self.lock = new rlock.Lock('rlock::test2', {
 					retryDelay : 2,
-					maxRetries : 1
+					maxRetries : 5
 				});
-				lock.acquire(self.callback);
+				self.lock.acquire(self.callback);
 			});
 		},
 		'should not be ok' : function(err, done) {
 			assert.ok(done === null);
 			testUtil.deleteRedisKey('rlock::test2');
+		},
+		'and number of retries should be correct': function(err, done) {
+			assert.ok(this.lock.retries === 5);
+		},
+		'and the lock flag should be false' : function(err, done) {
+			assert.ok(this.lock._locked === false);
 		}
 	},
 	'release lock test3' : {
@@ -57,6 +63,26 @@ vows.describe('Test suite for lock').addBatch({
 		'and when getting value from redis' : {
 			'topic' : function() {
 				testUtil.getRedisKey('rlock::test3', this.callback);
+			},
+			'it should give null' : function(err, result) {
+				assert.ok(result === null);
+			}
+		}
+	},
+	'release lock test4 using done callback' : {
+		'topic' : function() {
+			var self = this;
+			this.lock = new rlock.Lock('rlock::test4');
+			this.lock.acquire(function(err, done) {
+				done(self.callback);
+			});
+		},
+		'should be ok' : function(err, result) {
+			assert.ok(result === true);
+		},
+		'and when getting value from redis' : {
+			'topic' : function() {
+				testUtil.getRedisKey('rlock::test4', this.callback);
 			},
 			'it should give null' : function(err, result) {
 				assert.ok(result === null);
