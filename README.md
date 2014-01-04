@@ -38,4 +38,4 @@ Options available configuration
 * `callback` Function(err, done) success if and only if done is a function. Can use it to release the lock.
 
 #### Lock.release(callback)
-* `callback` Function(err, ok) success if ok true. Callback is optional.
+* `callback` Function(err, ok) success if ok true. Callback is optional. This can only call if Lock.acquire was successful.
