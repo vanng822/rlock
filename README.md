@@ -1,10 +1,10 @@
 rlock
 =====
 
-redis lock for nodejs
+Distributed lock for nodejs using redis
 
 
-## usage example
+## Usage example
 
 	var rlock = require('rlock');
 	var lock = new rlock.Lock('rlock.key');
@@ -29,9 +29,9 @@ redis lock for nodejs
 * `options` Object
 
 Options available configuration
-* `maxRetries` Maximum number of retries if can not acquire the lock, specify 0 if no retry, default 10
+* `maxRetries` Maximum number of retries if can not acquire the lock, specify 0 if no retry, default 10.
 * `retryDelay` Number of milliseconds to wait until next try, default 50 milliseconds.
-* `timeout` Number of milliseconds before the lock expires
+* `timeout` Number of milliseconds before the lock expires, default 5000 milliseconds.
 * `rclient` Instance of redis client, see https://github.com/mranney/node_redis#rediscreateclientport-host-options. If not specified it will create a client with default config.
 
 #### Lock.acquire(callback)
