@@ -20,7 +20,10 @@ Distributed lock for nodejs using redis
 			console.log(ok);
 		});
 	});
-	
+	// Set global redis client, with your own setting
+	var rlock = require('rlock');
+	var redis = require('redis');
+	rlock.setRedisClient(redis.createClient(6378));
 
 ## API
 
@@ -39,3 +42,7 @@ Options available configuration
 
 #### Lock.release(callback)
 * `callback` Function(err, ok) success if ok true. Callback is optional. This can only call if Lock.acquire was successful.
+
+
+### setRedisClient(client)
+* `client` Instance of redis client, see https://github.com/mranney/node_redis#rediscreateclientport-host-options
