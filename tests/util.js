@@ -8,8 +8,8 @@ module.exports.deleteRedisKey = function(key) {
 	getClient().del(key);
 };
 
-module.exports.setRedisKey = function(key) {
-	getClient().set(key, Date.now() + 1000000);
+module.exports.setRedisKey = function(key, callback) {
+	getClient().set(key, Date.now() + 1000000, callback);
 };
 
 module.exports.getRedisKey = function(key, callback) {

@@ -13,7 +13,7 @@ vows.describe('Test suite for lock').addBatch({
 		'should be ok' : function(err, done) {
 			assert.ok(done !== null);
 		},
-		'and lock flag is true': function(err, done) {
+		'and lock flag is true' : function(err, done) {
 			assert.ok(this.lock._locked);
 		},
 		'and when getting value from redis' : {
@@ -28,12 +28,15 @@ vows.describe('Test suite for lock').addBatch({
 	},
 	'acquire buzy lock test2' : {
 		'topic' : function() {
-			testUtil.setRedisKey('rlock::test2');
-			var lock = new rlock.Lock('rlock::test2', {
-				retryDelay : 2,
-				maxRetries : 1
+			var self = this;
+			testUtil.setRedisKey('rlock::test2', function(err, result) {
+				assert.ok(result);
+				var lock = new rlock.Lock('rlock::test2', {
+					retryDelay : 2,
+					maxRetries : 1
+				});
+				lock.acquire(self.callback);
 			});
-			lock.acquire(this.callback);
 		},
 		'should not be ok' : function(err, done) {
 			assert.ok(done === null);
@@ -48,10 +51,10 @@ vows.describe('Test suite for lock').addBatch({
 				self.lock.release(self.callback);
 			});
 		},
-		'should be ok': function(err, result) {
-				assert.ok(result === true);
+		'should be ok' : function(err, result) {
+			assert.ok(result === true);
 		},
-		'and when getting value from redis': {
+		'and when getting value from redis' : {
 			'topic' : function() {
 				testUtil.getRedisKey('rlock::test3', this.callback);
 			},
