@@ -19,6 +19,7 @@ vows.describe('Test suite for expired lock').addBatch({
 		},
 		'should be ok' : function(err, done) {
 			assert.ok(done !== null);
+			testUtil.deleteRedisKey('rlock::expire1');
 		},
 		'and lock flag is true' : function(err, done) {
 			assert.ok(this.lock._locked);
