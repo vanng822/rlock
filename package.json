@@ -1,0 +1,29 @@
+{
+	"name": "rlock",
+	"description": "distributed lock for nodejs using redis",
+	"keywords": ["lock", "nodejs", "redis", "concurrency", "distributed"],
+	"author": "Nguyen Van Nhu",
+	"homepage": "https://github.com/vanng822/rlock",
+	"contributors": [],
+	"dependencies": {
+		"redis": "*"
+	},
+	"devDependencies": {"vows": "*"},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/vanng822/rlock.git"
+	},
+	"version": "0.0.1",
+	"scripts": {
+		"test": "vows --spec tests/test_*"
+	},
+	"bugs": {
+		"url": "https://github.com/vanng822/rlock/issues"
+	},
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "https://github.com/vanng822/rlock/blob/master/LICENSE"
+		}
+	]
+}
