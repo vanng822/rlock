@@ -39,5 +39,25 @@ vows.describe('Test suite for lock').addBatch({
 			assert.ok(done === null);
 			testUtil.deleteRedisKey('rlock::test2');
 		}
+	},
+	'release lock test3' : {
+		'topic' : function() {
+			var self = this;
+			this.lock = new rlock.Lock('rlock::test3');
+			this.lock.acquire(function() {
+				self.lock.release(self.callback);
+			});
+		},
+		'should be ok': function(err, result) {
+				assert.ok(result === true);
+		},
+		'and when getting value from redis': {
+			'topic' : function() {
+				testUtil.getRedisKey('rlock::test3', this.callback);
+			},
+			'it should give null' : function(err, result) {
+				assert.ok(result === null);
+			}
+		}
 	}
 }).export(module);
