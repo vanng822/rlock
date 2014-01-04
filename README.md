@@ -31,7 +31,8 @@ Distributed lock for nodejs using redis
 * `key` String
 * `options` Object
 
-Options available configuration
+Available option configuration:
+
 * `maxRetries` Maximum number of retries if can not acquire the lock, specify 0 if no retry, default 10.
 * `retryDelay` Number of milliseconds to wait until next try, default 50 milliseconds.
 * `timeout` Number of milliseconds before the lock expires, default 5000 milliseconds.
