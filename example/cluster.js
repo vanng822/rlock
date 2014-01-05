@@ -5,16 +5,18 @@ var key = 'rlock.example1';
 /* tailor those for suitable server setup/hardware */
 var options = {
 	timeout : 200,
-	maxRetries : 10, // big int compare to timeout means retry until success, reduce to see failure
+	maxRetries : 10, // big int compare to timeout means retry until success, reduce
+	// to see failure
 	retryDelay : 50
 };
 var stats = {
-	total: 0,
+	total : 0,
 	acquireErr : 0,
 	releaseErr : 0,
 	acquireSuccess : 0,
 	acquireFailed : 0,
-	releaseSuccess : 0
+	releaseSuccess : 0,
+	releaseFailed : 0
 };
 
 if(cluster.isMaster) {
@@ -55,14 +57,21 @@ if(cluster.isMaster) {
 							process.send({
 								cmd : 'releaseErr'
 							});
+							return;
 						}
 						if(ok) {
 							process.send({
 								cmd : 'releaseSuccess'
 							});
+						} else {
+							process.send({
+								cmd : 'releaseFailed'
+							});
 						}
+
 					});
-				}, Math.random() * options.timeout * 1.1); // simulate some long jobs
+				}, Math.random() * options.timeout * 1.1);
+				// simulate some long jobs
 			});
 		}, options.timeout * os.cpus().length);
 	}, Math.random() * 500);
