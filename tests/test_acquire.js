@@ -52,7 +52,7 @@ vows.describe('Test suite for acquire lock').addBatch({
 	'succeed to acquire buzy lock acquire4' : {
 		'topic' : function() {
 			var self = this;
-			testUtil.setRedisKey('rlock::acquire4', Date.now() + 20, function(err, result) {
+			testUtil.setRedisKey('rlock::acquire4', Date.now() + 30, function(err, result) {
 				assert.ok(result);
 				self.lock = new rlock.Lock('rlock::acquire4', {
 					retryDelay : 20,
@@ -65,7 +65,7 @@ vows.describe('Test suite for acquire lock').addBatch({
 			assert.ok(done !== null);
 			testUtil.deleteRedisKey('rlock::acquire4');
 		},
-		'and number of retries should be one': function(err, done) {
+		'and number of retries should be larger than zero': function(err, done) {
 			assert.ok(this.lock.retries > 0);
 		},
 		'and the lock flag should be true' : function(err, done) {
