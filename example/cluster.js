@@ -22,23 +22,7 @@ if(cluster.isMaster) {
 		var worker = cluster.fork();
 		worker.on('message', function(msg) {
 			stats.total++;
-			switch(msg.cmd) {
-				case 'acquireErr':
-					stats.acquireErr++;
-					break;
-				case 'releaseErr':
-					stats.releaseErr++;
-					break;
-				case 'acquireSuccess':
-					stats.acquireSuccess++;
-					break;
-				case 'releaseSuccess':
-					stats.releaseSuccess++;
-					break;
-				case 'acquireFailed':
-					stats.acquireFailed++;
-					break;
-			}
+			stats[msg.cmd]++;
 		});
 	}
 	setInterval(function() {
