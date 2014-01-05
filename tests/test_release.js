@@ -13,6 +13,7 @@ vows.describe('Test suite for releasing lock').addBatch({
 		},
 		'it should return error and some warning log': function(err, ok) {
 			assert.ok(err !== null);
+			assert.ok(err.message === 'Not owning the lock');
 			assert.ok(ok === null);
 		}
 	},
@@ -28,18 +29,18 @@ vows.describe('Test suite for releasing lock').addBatch({
 				self.lock.acquire(function(err, done) {
 					setTimeout(function() {
 						self.lock.release(self.callback);
-					}, 10);
+					}, 5);
 				});
 		},
 		'it should be ok but see some warning log': function(err, ok) {
-			assert.ok(ok);
+			assert.ok(ok === true);
 		}
 	},
 	'release lock release3' : {
 		'topic' : function() {
 			var self = this;
 			this.lock = new rlock.Lock('rlock::release3');
-			this.lock.acquire(function() {
+			this.lock.acquire(function(err, done) {
 				self.lock.release(self.callback);
 			});
 		},

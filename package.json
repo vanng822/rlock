@@ -13,7 +13,7 @@
 		"type": "git",
 		"url": "git://github.com/vanng822/rlock.git"
 	},
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"scripts": {
 		"test": "vows --spec tests/test_*"
 	},
