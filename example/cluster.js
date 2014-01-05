@@ -1,7 +1,7 @@
 var cluster = require('cluster');
 var os = require('os');
 var rlock = require('../lib/lock');
-var key = 'rlock.example1';
+var key = 'rlock::example1';
 /* tailor those for suitable server setup/hardware */
 var options = {
 	timeout : 200,
