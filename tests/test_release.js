@@ -87,7 +87,7 @@ vows.describe('Test suite for releasing lock').addBatch({
 				}, 20);
 			});
 		},
-		'should be ok' : function(err, ok) {
+		'should not be ok' : function(err, ok) {
 			assert.ok(ok === false);
 		}
 	}
