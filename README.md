@@ -9,6 +9,9 @@ Distributed lock for nodejs using redis
 	var rlock = require('rlock');
 	var lock = new rlock.Lock('rlock.key');
 	lock.acquire(function(err, done) {
+		if (!done) {
+			return console.log('Could not acquire lock');
+		}
 		// Do stuffs
 		done();
 		// OR
