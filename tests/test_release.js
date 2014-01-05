@@ -75,5 +75,20 @@ vows.describe('Test suite for releasing lock').addBatch({
 				assert.ok(result === null);
 			}
 		}
+	},
+	'release lock release5 after someone deleted' : {
+		'topic' : function() {
+			var self = this;
+			this.lock = new rlock.Lock('rlock::release5');
+			this.lock.acquire(function(err, done) {
+				testUtil.deleteRedisKey('rlock::release5');
+				setTimeout(function() {
+					self.lock.release(self.callback);
+				}, 20);
+			});
+		},
+		'should be ok' : function(err, ok) {
+			assert.ok(ok === false);
+		}
 	}
 }).export(module);
