@@ -2,18 +2,17 @@ var assert = require('assert');
 var rlock = require('../index.js');
 var vows = require('vows');
 var redis = require('redis');
-var testUtil = require('./util.js');
 
 vows.describe('Test suite for set redis client').addBatch({
-	'it should be able to set redis client' : {
-		topic : function() {
-			rlock.setRedisClient(redis.createClient(64545));
-			lock = new rlock.Lock('rlock.setClient1');
-			lock.acquire(this.callback);
-		},
-		'It should give error due to wrong port' : function(err, result) {
-			assert.ok(result === null);
-			assert.ok(err !== null);
-		}
+	'it should be able to set redis client' : function() {
+		var rclient = redis.createClient(6378);
+		rclient.on('error', function(err) {
+			// catch error emit so we not crashing
+		});
+		rlock.setRedisClient(rclient);
+		
+		var lock = new rlock.Lock('rlock.setClient1');
+		assert.ok(lock.rclient === rclient);
+		assert.ok(lock.rclient.port === rclient.port);
 	}
 }).export(module);
