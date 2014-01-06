@@ -39,7 +39,7 @@ Available option:
 * `maxRetries` Maximum number of retries if can not acquire the lock, specify 0 if no retry, default 10.
 * `retryDelay` Number of milliseconds to wait until next try, default 50 milliseconds.
 * `timeout` Number of milliseconds before the lock expires, default 5000 milliseconds.
-* `rclient` Instance of redis client, see https://github.com/mranney/node_redis#rediscreateclientport-host-options. If not specified it will create a client with default config (or the global one if set).
+* `rclient` Instance of redis client, see https://github.com/mranney/node_redis#rediscreateclientport-host-options. If not specified it will create a client with default config (or the global one if set). Be aware that redis.createClient crashes on error if not handle.
 
 #### Lock.acquire(callback)
 * `callback` Function(err, done) success if and only if done is a function. Can use it to release the lock.
