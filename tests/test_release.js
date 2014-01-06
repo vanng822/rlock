@@ -8,8 +8,8 @@ vows.describe('Test suite for releasing lock').addBatch({
 	'release not owned lock release1' : {
 		'topic' : function() {
 			var self = this;
-			self.lock = new rlock.Lock('rlock::release1');
-			self.lock.release(self.callback);
+			var lock = new rlock.Lock('rlock::release1');
+			lock.release(self.callback);
 		},
 		'it should return error and some warning log' : function(err, ok) {
 			assert.ok(err !== null);
@@ -20,16 +20,16 @@ vows.describe('Test suite for releasing lock').addBatch({
 	'release expire lock release2' : {
 		'topic' : function() {
 			var self = this;
-			self.lock = new rlock.Lock('rlock::release2', {
+			var lock = new rlock.Lock('rlock::release2', {
 				retryDelay : 2,
 				maxRetries : 5,
 				timeout : 1
 			});
 
-			self.lock.acquire(function(err, done) {
+			lock.acquire(function(err, done) {
 				setTimeout(function() {
-					self.lock.release(self.callback);
-				}, 5);
+					lock.release(self.callback);
+				}, 10);
 			});
 		},
 		'it should be ok but see some warning log' : function(err, ok) {
@@ -39,9 +39,9 @@ vows.describe('Test suite for releasing lock').addBatch({
 	'release lock release3' : {
 		'topic' : function() {
 			var self = this;
-			this.lock = new rlock.Lock('rlock::release3');
-			this.lock.acquire(function(err, done) {
-				self.lock.release(self.callback);
+			lock = new rlock.Lock('rlock::release3');
+			lock.acquire(function(err, done) {
+				lock.release(self.callback);
 			});
 		},
 		'should be ok' : function(err, result) {
@@ -59,8 +59,8 @@ vows.describe('Test suite for releasing lock').addBatch({
 	'release lock release4 using done callback' : {
 		'topic' : function() {
 			var self = this;
-			this.lock = new rlock.Lock('rlock::release4');
-			this.lock.acquire(function(err, done) {
+			var lock = new rlock.Lock('rlock::release4');
+			lock.acquire(function(err, done) {
 				done(self.callback);
 			});
 		},
@@ -79,11 +79,11 @@ vows.describe('Test suite for releasing lock').addBatch({
 	'release lock release5 after someone deleted' : {
 		'topic' : function() {
 			var self = this;
-			this.lock = new rlock.Lock('rlock::release5');
-			this.lock.acquire(function(err, done) {
+			var lock = new rlock.Lock('rlock::release5');
+			lock.acquire(function(err, done) {
 				testUtil.deleteRedisKey('rlock::release5');
 				setTimeout(function() {
-					self.lock.release(self.callback);
+					lock.release(self.callback);
 				}, 20);
 			});
 		},
@@ -94,14 +94,14 @@ vows.describe('Test suite for releasing lock').addBatch({
 	'release lock release6 after someone took over it' : {
 		'topic' : function() {
 			var self = this;
-			self.lock1 = new rlock.Lock('rlock::release6', {
+			self.release6Lock1 = new rlock.Lock('rlock::release6', {
 				timeout : 5
 			});
-			self.lock2 = new rlock.Lock('rlock::release6');
-			self.lock1.acquire(function(err, done) {
+			self.release6Lock2 = new rlock.Lock('rlock::release6');
+			self.release6Lock1.acquire(function(err, done) {
 				setTimeout(function() {
-					self.lock2.acquire(function() {
-						self.lock1.release(self.callback);
+					self.release6Lock2.acquire(function() {
+						self.release6Lock1.release(self.callback);
 					});
 				}, 10);
 			});
@@ -114,11 +114,11 @@ vows.describe('Test suite for releasing lock').addBatch({
 				testUtil.getRedisKey('rlock::release6', this.callback);
 			},
 			'it should give same value as the one taking over' : function(err, result) {
-				assert.ok(parseInt(result) === this.lock2._expire);
+				assert.ok(parseInt(result) === this.release6Lock2._expire);
 			},
 			'And the one taking over releases' : {
 				'topic' : function() {
-					this.lock2.release(this.callback);
+					this.release6Lock2.release(this.callback);
 				},
 				'which should be ok' : function(err, ok) {
 					assert.ok(ok);
