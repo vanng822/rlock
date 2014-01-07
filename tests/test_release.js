@@ -52,6 +52,7 @@ vows.describe('Test suite for releasing lock').addBatch({
 				testUtil.getRedisKey('rlock::release3', this.callback);
 			},
 			'it should give null' : function(err, result) {
+				assert.ok(err === null);
 				assert.ok(result === null);
 			}
 		}
@@ -72,6 +73,7 @@ vows.describe('Test suite for releasing lock').addBatch({
 				testUtil.getRedisKey('rlock::release4', this.callback);
 			},
 			'it should give null' : function(err, result) {
+				assert.ok(err === null);
 				assert.ok(result === null);
 			}
 		}
@@ -128,6 +130,7 @@ vows.describe('Test suite for releasing lock').addBatch({
 						testUtil.getRedisKey('rlock::release6', this.callback);
 					},
 					'it should give null' : function(err, result) {
+						assert.ok(err === null);
 						assert.ok(result === null);
 					}
 				}
