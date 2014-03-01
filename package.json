@@ -6,7 +6,7 @@
 	"homepage": "https://github.com/vanng822/rlock",
 	"contributors": [],
 	"dependencies": {
-		"redis": "*"
+		"redis": "0.10.0"
 	},
 	"devDependencies": {"vows": "*"},
 	"repository": {
